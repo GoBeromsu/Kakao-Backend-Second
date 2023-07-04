@@ -1,0 +1,40 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8 # 서버의 응답에 사용될 기본 문자셋 설정
+      force: true # 해당 charset을 강제로 사용하도록 설정
+  port: 8080 # 서버의 포트 번호 설정
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL # 데이터베이스 접속 URL, 여기서는 메모리 기반의 H2 데이터베이스 사용
+    driver-class-name: org.h2.Driver # JDBC 드라이버 클래스 이름
+    username: sa # 데이터베이스 접속 아이디
+    password: # 데이터베이스 접속 비밀번호 (여기서는 비워둔 상태)
+  h2:
+    console:
+      enabled: true # H2 데이터베이스 콘솔 활성화
+  output:
+    ansi:
+      enabled: always # ANSI 출력 활성화, 콘솔에서 색상 등을 제어할 수 있게 함
+  jpa:
+    hibernate:
+      ddl-auto: create # Hibernate의 DDL 자동 생성 기능 활성화
+    show-sql: true # SQL 쿼리 출력 활성화
+    properties:
+      hibernate:
+        format_sql: true # SQL 포맷팅 활성화
+      default_batch_fetch_size: 100 # 기본 배치 가져오기 크기 설정
+    open-in-view: false # Open Session In View 패턴 비활성화
+  security:
+    user:
+      name: ssar # 기본 사용자 이름 설정
+      password: 1234 # 기본 사용자 비밀번호 설정
+
+logging:
+  level:
+    '[com.example.kakaoshop]': DEBUG # com.example.kakaoshop 패키지의 로깅 레벨을 DEBUG로 설정
+    '[org.hibernate.type]': TRACE # org.hibernate.type 패키지의 로깅 레벨을 TRACE로 설정
+
+file:
+  path: ./images/ # 파일 저장 경로 설정
