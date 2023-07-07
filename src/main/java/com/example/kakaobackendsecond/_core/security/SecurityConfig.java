@@ -11,6 +11,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 @Slf4j // Lombok의 로거, 로그를 생성하기 위해 사용합니다
 @RequiredArgsConstructor // 모든 final 필드와 @NonNull이 붙은 필드에 대한 생성자를 생성합니다
 @Configuration // 스프링 IOC Container에게 해당 클래스가 Bean 구성 클래스임을 알려줍니다
@@ -39,6 +43,22 @@ public class SecurityConfig {
 			builder.addFilter(new JWTAuthenticationFilter(authenticationManager));
 			super.configure(builder);
 		}
+	}
+
+
+	// CORS 설정을 정의하는 메소드입니다.
+	public CorsConfigurationSource configurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedHeader("*"); // 모든 헤더를 허용합니다.
+		configuration.addAllowedMethod("*"); // 모든 HTTP 메서드를 허용합니다.
+		configuration.addAllowedOriginPattern("*"); // 모든 원본을 허용합니다.
+		configuration.setAllowCredentials(true); // 쿠키 사용을 허용합니다.
+		configuration.addExposedHeader("Authorization"); // 'Authorization' 헤더를 노출합니다.
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정을 적용합니다.
+
+		return source;
 	}
 }
 
